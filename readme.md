@@ -11,7 +11,7 @@ The Plugin provides a custom middleware to import content from other files:
 
 ```js
 lorem
-//# import ./my/super.file
+//#import ./my/super.file
 ipsum
 ```
 
@@ -24,24 +24,20 @@ ipsum
     ```
 
 	This adds `atma-io-middleware-importer` npm dependency and the `package.json` would look like:
-    ```json
-        {
-            "devDependencies": {
+    ```javascript
+    {
+        "devDependencies": {
+            "atma-io-middleware-importer"
+        },
+        "atma": {
+            "plugins": [
                 "atma-io-middleware-importer"
-            },
-            "atma": {
-                "plugins": [
-                    "atma-io-middleware-importer"
-                ],
-                "settings": {
-					"atma-io-middleware-importer": {
-                        define: {
-                            DEBUG: true
-                        }
-                    }
-                }
+            ],
+            "settings": {
+                "atma-io-middleware-importer": {}
             }
         }
+    }
     ```
 + **App Bundler** 
     
