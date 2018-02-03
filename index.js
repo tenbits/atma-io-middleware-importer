@@ -316,6 +316,7 @@ function map_parse(fileContent, filename) {
     }
     return map;
 }
+exports.map_parse = map_parse;
 function map_getFileAt(map, line) {
     if (map == null)
         return null;
@@ -334,6 +335,7 @@ function map_getFileAt(map, line) {
     }
     return file;
 }
+exports.map_getFileAt = map_getFileAt;
 ;
 				
 					function isObject(x) {
@@ -354,7 +356,11 @@ module.exports = Base.create({
     name: 'atma-io-middleware-importer',
     textOnly: true,
     defaultOptions: {},
-    process: importer_1.default
+    process: importer_1.default,
+    utils: {
+        map_getFileAt: importer_1.map_getFileAt,
+        map_parse: importer_1.map_parse
+    }
 });
 
 				
