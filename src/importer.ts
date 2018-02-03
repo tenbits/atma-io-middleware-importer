@@ -129,7 +129,7 @@ function processVersion(code) {
 	});
 }
 
-function map_parse(fileContent, filename) {
+export function map_parse(fileContent, filename) {
 
 	if (rgx_sourceStatement.test(fileContent) === false)
 		return null;
@@ -172,7 +172,7 @@ function map_parse(fileContent, filename) {
 	return map;
 }
 
-function map_getFileAt(map, line) {
+export function map_getFileAt(map, line) {
 	if (map == null)
 		return null;
 

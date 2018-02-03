@@ -1,5 +1,5 @@
 import * as Base from 'atma-io-middleware-base'
-import process from './importer'
+import process, { map_getFileAt, map_parse } from './importer'
 
 export = Base.create({
     name: 'atma-io-middleware-importer',
@@ -7,5 +7,9 @@ export = Base.create({
     defaultOptions: {
         
     },
-    process
+    process,
+    utils: {
+        map_getFileAt,
+        map_parse
+    }
 });
