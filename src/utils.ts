@@ -1,7 +1,6 @@
-import { io } from 'atma-io-middleware-base'
 import { glob_getRelativePath, glob_getStrictPath } from './glob';
 
-export function u_getNewLine(str) {
+export function u_getNewLine(str, io) {
     var match = /(\r\n)|(\r)|(\n)/.exec(str);
     return (match && match[0]) || io.env.newLine;
 };
@@ -10,7 +9,7 @@ export function u_getIndent(str) {
     return match && match[0] || '';
 };
 
-export function u_getFilesFromPath(path) {
+export function u_getFilesFromPath(path, io) {
     if (path.indexOf('*') !== -1) {
         var dir = new io.Directory(glob_getStrictPath(path));
         if (dir.exists() === false) {
@@ -30,9 +29,9 @@ export function u_getFilesFromPath(path) {
     return [file];
 };
 
-export function u_readFile(file, indent, insertFileName) {
+export function u_readFile(io, file, indent, insertFileName) {
     var content = file.read().toString();
-    var newline = u_getNewLine(content);
+    var newline = u_getNewLine(content, io);
     if (indent) {
         content = content
             .split(newline)

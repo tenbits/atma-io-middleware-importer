@@ -61,11 +61,10 @@ exports.glob_getRelativePath = glob_getRelativePath;
 					var module = { exports: exports };
 					"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var atma_io_middleware_base_1 = require("atma-io-middleware-base");
 var glob_1 = _src_glob;
-function u_getNewLine(str) {
+function u_getNewLine(str, io) {
     var match = /(\r\n)|(\r)|(\n)/.exec(str);
-    return (match && match[0]) || atma_io_middleware_base_1.io.env.newLine;
+    return (match && match[0]) || io.env.newLine;
 }
 exports.u_getNewLine = u_getNewLine;
 ;
@@ -75,9 +74,9 @@ function u_getIndent(str) {
 }
 exports.u_getIndent = u_getIndent;
 ;
-function u_getFilesFromPath(path) {
+function u_getFilesFromPath(path, io) {
     if (path.indexOf('*') !== -1) {
-        var dir = new atma_io_middleware_base_1.io.Directory(glob_1.glob_getStrictPath(path));
+        var dir = new io.Directory(glob_1.glob_getStrictPath(path));
         if (dir.exists() === false) {
             console.error('Directory not found', dir.uri.toLocalDir());
             return [];
@@ -86,7 +85,7 @@ function u_getFilesFromPath(path) {
             .readFiles(glob_1.glob_getRelativePath(path))
             .files;
     }
-    var file = new atma_io_middleware_base_1.io.File(path);
+    var file = new io.File(path);
     if (file.exists() === false) {
         console.error('File not found', file.uri.toLocalFile());
         return [];
@@ -95,9 +94,9 @@ function u_getFilesFromPath(path) {
 }
 exports.u_getFilesFromPath = u_getFilesFromPath;
 ;
-function u_readFile(file, indent, insertFileName) {
+function u_readFile(io, file, indent, insertFileName) {
     var content = file.read().toString();
-    var newline = u_getNewLine(content);
+    var newline = u_getNewLine(content, io);
     if (indent) {
         content = content
             .split(newline)
@@ -189,7 +188,6 @@ exports.Functions = {
 					var module = { exports: exports };
 					"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var atma_io_middleware_base_1 = require("atma-io-middleware-base");
 var utils_1 = _src_utils;
 var functions_1 = _src_functions;
 var logger = require("atma-logger");
@@ -211,7 +209,7 @@ rgx_version = /\/\*[ #]*import[ ]+version[ ]*\*\//gi;
 function processContent(currentUri, code) {
     var baseUri = currentUri;
     var extension = 'js';
-    var newline = utils_1.u_getNewLine(code);
+    var newline = utils_1.u_getNewLine(compiler.io, code);
     if (rgx_importBase.test(code)) {
         code = code.replace(rgx_importBase, function (full, path) {
             baseUri = uri_joinBase(path);
@@ -226,7 +224,7 @@ function processContent(currentUri, code) {
     }
     function uri_joinBase(path) {
         return path[0] === '/'
-            ? atma_io_middleware_base_1.io.env.currentDir.combine(path.substring(1))
+            ? compiler.io.env.currentDir.combine(path.substring(1))
             : baseUri.combine(path);
     }
     function path_resolveUri(path) {
@@ -234,7 +232,7 @@ function processContent(currentUri, code) {
         var uri;
         if (lastC === '/') {
             uri = uri_joinBase(path + 'exports.' + extension);
-            if (atma_io_middleware_base_1.io.File.exists(uri)) {
+            if (compiler.io.File.exists(uri)) {
                 return uri;
             }
             return uri_joinBase(path + '*.' + extension);
@@ -252,7 +250,7 @@ function processContent(currentUri, code) {
         }
         uri = path_resolveUri(path);
         path = uri.toString();
-        files = utils_1.u_getFilesFromPath(path);
+        files = utils_1.u_getFilesFromPath(path, compiler.io);
         indent = utils_1.u_getIndent(full);
         content = files
             .map(function (file) {
@@ -260,7 +258,7 @@ function processContent(currentUri, code) {
             var _from = (file.uri || _virtualUri).file;
             var msg = "File Import " + _from + " into " + currentUri.file;
             logger.log(msg);
-            return utils_1.u_readFile(file, indent, files.length > 1);
+            return utils_1.u_readFile(compiler.io, file, indent, files.length > 1);
         })
             .join(newline);
         if (isString) {
@@ -350,9 +348,9 @@ exports.map_getFileAt = map_getFileAt;
 				// end:source ./templates/ModuleSimplified.js
 				
 "use strict";
-var Base = require("atma-io-middleware-base");
+var atma_io_middleware_base_1 = require("atma-io-middleware-base");
 var importer_1 = _src_importer;
-module.exports = Base.create({
+module.exports = atma_io_middleware_base_1.create({
     name: 'atma-io-middleware-importer',
     textOnly: true,
     defaultOptions: {},

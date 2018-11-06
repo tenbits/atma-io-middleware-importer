@@ -1,4 +1,4 @@
-import { Compiler, io } from 'atma-io-middleware-base'
+import { Compiler } from 'atma-io-middleware-base'
 import { u_getNewLine, u_getFilesFromPath, u_getIndent, u_readFile, u_asString } from './utils'
 import { Functions } from './functions'
 import * as logger from 'atma-logger'
@@ -36,7 +36,7 @@ var rgx_importStatement = /^[\t ]*\/\/[ #]*import(:string)?[ ]+(([^\s'"]+)|('|"(
 function processContent(currentUri, code) {
 	var baseUri = currentUri;
 	var extension = 'js';
-	var newline = u_getNewLine(code);
+	var newline = u_getNewLine(compiler.io, code);
 
 	if (rgx_importBase.test(code)) {
 		code = code.replace(rgx_importBase, function (full, path) {
@@ -53,7 +53,7 @@ function processContent(currentUri, code) {
 
 	function uri_joinBase(path) {
 		return path[0] === '/'
-			? io.env.currentDir.combine(path.substring(1))
+			? compiler.io.env.currentDir.combine(path.substring(1))
 			: baseUri.combine(path);
 	}
 	function path_resolveUri(path) {
@@ -61,7 +61,7 @@ function processContent(currentUri, code) {
 		var uri;
 		if (lastC === '/') {
 			uri = uri_joinBase(path + 'exports.' + extension);
-			if (io.File.exists(uri)) {
+			if (compiler.io.File.exists(uri)) {
 				return uri;
 			}
 			return uri_joinBase(path + '*.' + extension);
@@ -86,7 +86,7 @@ function processContent(currentUri, code) {
 
 		uri = path_resolveUri(path);
 		path = uri.toString();
-		files = u_getFilesFromPath(path);
+		files = u_getFilesFromPath(path, compiler.io);
 		indent = u_getIndent(full);
 		content = files
 			.map(file => {
@@ -94,7 +94,7 @@ function processContent(currentUri, code) {
 				var _from = (file.uri || _virtualUri).file;
 				var msg = `File Import ${_from} into ${currentUri.file}`;
 				logger.log(msg);
-				return u_readFile(file, indent, files.length > 1);
+				return u_readFile(compiler.io, file, indent, files.length > 1);
 			})
 			.join(newline);
 
