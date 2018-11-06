@@ -209,7 +209,7 @@ rgx_version = /\/\*[ #]*import[ ]+version[ ]*\*\//gi;
 function processContent(currentUri, code) {
     var baseUri = currentUri;
     var extension = 'js';
-    var newline = utils_1.u_getNewLine(compiler.io, code);
+    var newline = utils_1.u_getNewLine(code, compiler.io);
     if (rgx_importBase.test(code)) {
         code = code.replace(rgx_importBase, function (full, path) {
             baseUri = uri_joinBase(path);

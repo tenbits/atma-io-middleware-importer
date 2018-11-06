@@ -36,7 +36,7 @@ var rgx_importStatement = /^[\t ]*\/\/[ #]*import(:string)?[ ]+(([^\s'"]+)|('|"(
 function processContent(currentUri, code) {
 	var baseUri = currentUri;
 	var extension = 'js';
-	var newline = u_getNewLine(compiler.io, code);
+	var newline = u_getNewLine(code, compiler.io);
 
 	if (rgx_importBase.test(code)) {
 		code = code.replace(rgx_importBase, function (full, path) {
