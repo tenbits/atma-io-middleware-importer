@@ -284,7 +284,7 @@ function processFunctions(code) {
 function processVersion(code) {
     return code.replace(rgx_version, function () {
         logger.error('"import version" is deprecated. Use importer function: %IMPORT' + '(VERSION)%');
-        return "'" + functions_1.Functions.version() + "'";
+        return "'" + functions_1.Functions.version(compiler) + "'";
     });
 }
 function map_parse(fileContent, filename) {

@@ -125,7 +125,7 @@ function processFunctions(code) {
 function processVersion(code) {
 	return code.replace(rgx_version, function () {
 		logger.error('"import version" is deprecated. Use importer function: %IMPORT' + '(VERSION)%');
-		return "'" + Functions.version() + "'";
+		return "'" + Functions.version(compiler) + "'";
 	});
 }
 
