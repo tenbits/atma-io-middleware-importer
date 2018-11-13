@@ -278,7 +278,7 @@ function processFunctions(code) {
             logger.error('Unknown IMPORT function', name);
             return full;
         }
-        return fn();
+        return fn(compiler);
     });
 }
 function processVersion(code) {
