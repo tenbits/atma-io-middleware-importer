@@ -1,25 +1,32 @@
-export const Functions = {
-    version () {
-		var path = arr_find([
+import { Compiler } from "atma-io-middleware-base";
+
+export interface IFunctions {
+    [key: string]: (compiler?: Compiler) => string
+}
+
+export const Functions: IFunctions = {
+    version (compiler: Compiler) {
+		var path = [
 			'package.json',
 			'bower.json',
 			'component.json',
 			'package.yml'
-		], x => io.File.exists(x));
+        ].find(x => compiler.io.exists(x));
+        
 		if (path == null) {
-			log_error('Version requested but no "package" found');
+            compiler.logger.error('Version requested but no "package" found');
 			return '0.0.0';
 		}
-		var json = io.File.read(path);
+		var json = compiler.io.File.read(path);
 		var version = json && json.version;
 		if (version == null) {
-			log_error('Invalid package', path);
+			compiler.logger.error(`Package ${path} has no version`);
 			return '0.0.0';
 		}
 		return version;
 	},
 	
 	year () {
-		return new Date().getFullYear();
+		return new Date().getFullYear() + '';
 	}
 }

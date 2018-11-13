@@ -144,27 +144,27 @@ exports.u_asString = u_asString;
 					"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Functions = {
-    version: function () {
-        var path = arr_find([
+    version: function (compiler) {
+        var path = [
             'package.json',
             'bower.json',
             'component.json',
             'package.yml'
-        ], function (x) { return io.File.exists(x); });
+        ].find(function (x) { return compiler.io.exists(x); });
         if (path == null) {
-            log_error('Version requested but no "package" found');
+            compiler.logger.error('Version requested but no "package" found');
             return '0.0.0';
         }
-        var json = io.File.read(path);
+        var json = compiler.io.File.read(path);
         var version = json && json.version;
         if (version == null) {
-            log_error('Invalid package', path);
+            compiler.logger.error("Package " + path + " has no version");
             return '0.0.0';
         }
         return version;
     },
     year: function () {
-        return new Date().getFullYear();
+        return new Date().getFullYear() + '';
     }
 };
 ;
