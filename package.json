@@ -1,6 +1,6 @@
 {
     "name": "atma-io-middleware-importer",
-    "version": "1.1.35",
+    "version": "1.1.37",
     "description": "File importer middleware for Atma.IO and Atma.Toolkit",
     "author": {
         "name": "Alex Kit",
@@ -12,13 +12,13 @@
         "build": "app-bundler"
     },
     "dependencies": {
-        "atma-io-middleware-base": "^1.0.35",
+        "atma-io-middleware-base": "^1.0.37",
         "atma-logger": ">=1.0.0"
     },
     "devDependencies": {
         "@types/node": "^8.0.34",
         "app-bundler": "0.0.35",
-        "atma-io": "^0.2.40",
+        "atma-io": "^1.1.7",
         "atma-loader-ts": "^1.0.0"
     },
     "app-bundler": {

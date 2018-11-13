@@ -11,7 +11,7 @@ export const Functions: IFunctions = {
 			'bower.json',
 			'component.json',
 			'package.yml'
-        ].find(x => compiler.io.exists(x));
+        ].find(x => compiler.io.File.exists(x));
         
 		if (path == null) {
             compiler.logger.error('Version requested but no "package" found');

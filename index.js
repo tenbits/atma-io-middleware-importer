@@ -150,7 +150,7 @@ exports.Functions = {
             'bower.json',
             'component.json',
             'package.yml'
-        ].find(function (x) { return compiler.io.exists(x); });
+        ].find(function (x) { return compiler.io.File.exists(x); });
         if (path == null) {
             compiler.logger.error('Version requested but no "package" found');
             return '0.0.0';
