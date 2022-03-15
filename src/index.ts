@@ -5,7 +5,9 @@ export = create({
     name: 'atma-io-middleware-importer',
     textOnly: true,
     defaultOptions: {
-        
+        defaultExtension: 'js',
+        withPathComments: true,
+        inlineJsImports: false
     },
     process,
     utils: {

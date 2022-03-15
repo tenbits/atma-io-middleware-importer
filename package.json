@@ -1,6 +1,6 @@
 {
     "name": "atma-io-middleware-importer",
-    "version": "1.1.37",
+    "version": "1.1.38",
     "description": "File importer middleware for Atma.IO and Atma.Toolkit",
     "author": {
         "name": "Alex Kit",
@@ -9,17 +9,19 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "app-bundler"
+        "build": "app-bundler",
+        "test": "atma test"
     },
     "dependencies": {
-        "atma-io-middleware-base": "^1.0.37",
+        "atma-io-middleware-base": "^1.0.46",
         "atma-logger": ">=1.0.0"
     },
     "devDependencies": {
         "@types/node": "^8.0.34",
-        "app-bundler": "0.0.35",
+        "app-bundler": "^0.1.2",
+        "atma": "^0.15.12",
         "atma-io": "^1.1.7",
-        "atma-loader-ts": "^1.0.0"
+        "atma-loader-ts": "^1.1.18"
     },
     "app-bundler": {
         "file": "src/index.ts",
@@ -48,11 +50,28 @@
             "atma-loader-ts"
         ],
         "settings": {
+            "include": {
+                "amd": true,
+                "extentionDefault": {
+                    "js": "ts"
+                }
+            },
             "atma-loader-ts": {
                 "extensions": [
                     "ts",
                     "test"
-                ]
+                ],
+                "typescript": {
+                    "compilerOptions": {
+                        "sourceMap": false,
+                        "#if (TEST)": {
+                            "module": "AMD"
+                        },
+                        "#if (!TEST)": {
+                            "module": "CommonJS"
+                        }
+                    }
+                }
             }
         }
     }

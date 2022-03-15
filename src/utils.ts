@@ -4,9 +4,18 @@ export function u_getNewLine(str, io) {
     var match = /(\r\n)|(\r)|(\n)/.exec(str);
     return (match && match[0]) || io.env.newLine;
 };
-export function u_getIndent(str) {
+export function u_getIndent(str): string {
     var match = /^[ \t]+/.exec(str);
     return match && match[0] || '';
+};
+export function u_makeIndent(str: string, indent: string, io) {
+    if (!indent) return str;
+
+    let newline = u_getNewLine(str, io);
+    return str
+        .split(newline)
+        .map(line => indent + line)
+        .join(newline);
 };
 
 export function u_getFilesFromPath(path, io) {

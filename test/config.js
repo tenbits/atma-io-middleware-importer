@@ -1,8 +1,11 @@
 module.exports = {
-	suites: {
-		node: {
-			exec: 'node',
-			tests: 'test/node.test'
-		}
-	}
+    suites: {
+        node: {
+            exec: 'node',
+            tests: 'test/**.spec.ts',
+            env: [
+                'test/TestHelper.ts'
+            ]
+        }
+    }
 }
